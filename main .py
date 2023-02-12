@@ -1,0 +1,63 @@
+import extcolors
+from rembg import remove
+from PIL import Image
+
+def text_to_dict():
+    path = "C:/Users/USER/Desktop/colors.txt"
+
+    with open(path, 'r') as f:
+        data = f.readlines()
+        colors = {}
+        for arr in data:
+            arr = arr.replace('\n', '')
+            arr = arr.replace('[', '(')
+            arr = arr.replace(']', ')')
+            idx = arr.find(')')
+            rgb_str = arr[idx + 2:]
+            rgb = arr[1:idx]
+            rgb = rgb.replace(',', '').split(' ')
+            rgb_tup = int(rgb[0]), int(rgb[1]), int(rgb[2])
+            colors[rgb_tup] = rgb_str
+    return colors
+
+def get_me_a_name(color):
+    r, g, b = color
+    remember = 1000
+    res = ''
+    for k, v in text_to_dict().items():
+        r_delta = abs(k[0] - r)
+        g_delta = abs(k[1] - g)
+        b_delta = abs(k[2] - b)
+        tmp = r_delta + g_delta + b_delta
+        if tmp < remember:
+            remember = tmp
+            res = v
+    return res
+
+def dominante (color_arr):
+    dicti = {}
+    for color in color_arr:
+        print(color)
+        name = get_me_a_name(color[0])
+        pixel_count = int(color[1])
+        if name in dicti:
+            dicti[name] += pixel_count
+        else:
+            dicti[name] = pixel_count
+    max = 0
+    res = ''
+    print(dicti)
+    for k, v in dicti.items():
+        if v > max:
+            res = k
+            max = v
+    return res, max
+
+in_path = "C:/Users/USER/Desktop/hmgoepprod.webp"
+
+out_path = in_path[:in_path.find('.')] + '_nobg' + '.png'
+input_img = Image.open(in_path)
+output_img = remove(input_img)
+color, pixelcount = extcolors.extract_from_image(output_img)
+print(dominante(color), pixelcount)
+output_img.save(out_path)
