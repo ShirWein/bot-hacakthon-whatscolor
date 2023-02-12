@@ -3,6 +3,8 @@ import extcolors
 import requests
 from rembg import remove
 from PIL import Image
+import webcolors
+from scipy.spatial import KDTree
 
 def text_to_dict() -> dict:
     path = "./colors.txt"
@@ -54,13 +56,26 @@ def dominante_color(color_arr: list) -> str:
             max = v
     return f'The dominant color(s) in this image: {res}'
 
+
+def convert_rgb_to_names(rgb_tuple):
+    # a dictionary of all the hex and their respective names in css3
+    css3_db = webcolors.CSS3_HEX_TO_NAMES
+    names = []
+    rgb_values = []
+    for color_hex, color_name in css3_db.items():
+        names.append(color_name)
+        rgb_values.append(webcolors.hex_to_rgb(color_hex))
+
+    kdt_db = KDTree(rgb_values)
+    distance, index = kdt_db.query(rgb_tuple)
+    return f'closest match: {names[index]}'
 def extract_color(in_path: str) -> str:
     data = requests.get(in_path)
-    print(data)
     input_img = Image.open(BytesIO(data.content))
     output_img = remove(input_img)
     output_img.save("C:/Users/Shir/Desktop/file_1_no_bg.png")
     color, pixelcount = extcolors.extract_from_image(output_img)
-    return dominante_color(color)
+    return convert_rgb_to_names(color[0][0])
+    # return dominante_color(color)
     # output_img.save(out_path)
 
