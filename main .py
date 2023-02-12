@@ -2,9 +2,8 @@ import extcolors
 from rembg import remove
 from PIL import Image
 
-def text_to_dict():
-    path = "C:/Users/USER/Desktop/colors.txt"
-
+def text_to_dict()->dict:
+    path = "./colors.txt"
     with open(path, 'r') as f:
         data = f.readlines()
         colors = {}
@@ -20,7 +19,7 @@ def text_to_dict():
             colors[rgb_tup] = rgb_str
     return colors
 
-def get_me_a_name(color):
+def get_me_a_name(color: tuple)->str:
     r, g, b = color
     remember = 1000
     res = ''
@@ -34,7 +33,7 @@ def get_me_a_name(color):
             res = v
     return res
 
-def dominante (color_arr):
+def dominante_color(color_arr: list)->str:
     dicti = {}
     for color in color_arr:
         print(color)
@@ -51,13 +50,17 @@ def dominante (color_arr):
         if v > max:
             res = k
             max = v
-    return res, max
+    return res
+
+def extract_color(in_path: str)-> str:
+    # out_path = in_path[:in_path.find('.')] + '_nobg' + '.png'
+    input_img = Image.open(in_path)
+    output_img = remove(input_img)
+    color, pixelcount = extcolors.extract_from_image(output_img)
+    return dominante_color(color)
+    # output_img.save(out_path)
+
 
 in_path = "C:/Users/USER/Desktop/hmgoepprod.webp"
+print(extract_color(in_path))
 
-out_path = in_path[:in_path.find('.')] + '_nobg' + '.png'
-input_img = Image.open(in_path)
-output_img = remove(input_img)
-color, pixelcount = extcolors.extract_from_image(output_img)
-print(dominante(color), pixelcount)
-output_img.save(out_path)
