@@ -1,19 +1,19 @@
 # 🤖👁️🎨 What'sColor Bot 🎨👁️🤖
 
 ## The Team
-- Ido Band
-- Shir Weinbrand
-- Roy Palkovitch
+- **Ido Band**
+- **Shir Weinbrand**
+- **Roy Palkovitch**
 
 ## About this bot
 
-🚧 _DESCRIPTION_:
+ _DESCRIPTION_:
 
 ▪️ The 🤖🎨 WhatsColor Bot 🎨🤖 designed to help to color-blind people by identify the main color in an image
 
 ▪️ Simply upload an image to the bot and within seconds, you will receive a response indicating the main color in the image.
 
-🚧 _LINK TO THE BOT_: http://t.me/WhatsColor_Bot
+_LINK TO THE BOT_:  http://t.me/WhatsColor_Bot
 
 🚧 ADD SCREENSHOTS/GIFS/SCREENCAST HERE (REFER TO MARKDOWN'S SYNTAX FOR HELP ON DISPLAYING IMAGES)
 

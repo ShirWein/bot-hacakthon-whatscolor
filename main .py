@@ -2,7 +2,7 @@ import extcolors
 from rembg import remove
 from PIL import Image
 
-def text_to_dict()->dict:
+def text_to_dict() -> dict:
     path = "./colors.txt"
     with open(path, 'r') as f:
         data = f.readlines()
@@ -19,7 +19,7 @@ def text_to_dict()->dict:
             colors[rgb_tup] = rgb_str
     return colors
 
-def get_me_a_name(color: tuple)->str:
+def get_me_a_name(color: tuple) -> str:
     r, g, b = color
     remember = 1000
     res = ''
@@ -33,7 +33,7 @@ def get_me_a_name(color: tuple)->str:
             res = v
     return res
 
-def dominante_color(color_arr: list)->str:
+def dominante_color(color_arr: list) -> str:
     dicti = {}
     for color in color_arr:
         print(color)

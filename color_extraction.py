@@ -1,11 +1,10 @@
 from io import BytesIO
-
 import extcolors
 import requests
 from rembg import remove
 from PIL import Image
 
-def text_to_dict()->dict:
+def text_to_dict() -> dict:
     path = "./colors.txt"
     with open(path, 'r') as f:
         data = f.readlines()
@@ -22,7 +21,7 @@ def text_to_dict()->dict:
             colors[rgb_tup] = rgb_str
     return colors
 
-def get_me_a_name(color: tuple)->str:
+def get_me_a_name(color: tuple) -> str:
     r, g, b = color
     remember = 1000
     res = ''
@@ -36,7 +35,7 @@ def get_me_a_name(color: tuple)->str:
             res = v
     return res
 
-def dominante_color(color_arr: list)->str:
+def dominante_color(color_arr: list) -> str:
     dicti = {}
     for color in color_arr:
         print(color)
@@ -53,13 +52,14 @@ def dominante_color(color_arr: list)->str:
         if v > max:
             res = k
             max = v
-    return f'The dominant color: {res}'
+    return f'The dominant color(s) in this image: {res}'
 
-def extract_color(in_path: str)-> str:
+def extract_color(in_path: str) -> str:
     data = requests.get(in_path)
+    print(data)
     input_img = Image.open(BytesIO(data.content))
     output_img = remove(input_img)
-    output_img.save('"C:/Users/Shir/Desktop/file_1_no_bg.jpg"')
+    output_img.save("C:/Users/Shir/Desktop/file_1_no_bg.png")
     color, pixelcount = extcolors.extract_from_image(output_img)
     return dominante_color(color)
     # output_img.save(out_path)
