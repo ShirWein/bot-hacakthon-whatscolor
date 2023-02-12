@@ -4,6 +4,7 @@
 *.bak
 *.log
 ~*
+/key.py
 
 venv
 
