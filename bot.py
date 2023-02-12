@@ -1,5 +1,7 @@
 import logging
 
+from color_extraction import extract_color
+
 from telegram import Update
 from telegram.ext import (
     CommandHandler,
@@ -35,6 +37,8 @@ def receive_image(update, context):
     image = update.message.photo[-1].get_file()
     print(image)
     update.message.reply_text('Just a moment I am scanning the image...')
+    result = extract_color(image['file_path'])
+    update.message.reply_text(result)
 
 def error(update, context):
     update.message.reply_text(f"Wrong input, please send an image")
