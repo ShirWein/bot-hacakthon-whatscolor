@@ -1,9 +1,9 @@
-# 🚧 YOUR BOT NAME HERE
+# 🤖👁️🎨 What'sColor Bot 🎨👁️🤖
 
 ## The Team
-- 🚧 Participant 1 Name
-- 🚧 Participant 2 Name
-- 🚧 Participant 3 Name
+- Ido Band
+- Shir Weinbrand
+- Roy Palkovitch
 
 ## About this bot
 
