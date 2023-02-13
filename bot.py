@@ -1,14 +1,10 @@
 import logging
 from color_extraction import extract_color
-from telegram import Update
-from telegram.ext import (
-    CommandHandler,
-    CallbackContext,
-    Updater, MessageHandler, Filters,
-)
+from telegram import *
+from telegram.ext import *
 from key import api
 
-WELCOME_TEXT = "Welcome to 🤖🎨👁️ What's color bot! 🤖🎨👁️"
+WELCOME_TEXT = "Welcome to WhatsColor bot!"
 
 logging.basicConfig(
     format="[%(levelname)s %(asctime)s %(module)s:%(lineno)d] %(message)s",
@@ -22,7 +18,8 @@ logger = logging.getLogger(__name__)
 def start(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     logger.info(f"> Start chat #{chat_id}")
-    context.bot.send_message(chat_id=chat_id, text=WELCOME_TEXT)
+    buttons = [[KeyboardButton("Get Color")]]
+    context.bot.send_message(chat_id=chat_id, text=WELCOME_TEXT, reply_markup=ReplyKeyboardMarkup(buttons))
 
 
 # the /help command
@@ -35,7 +32,9 @@ def receive_image(update, context):
     update.message.reply_text('Just a moment I am scanning the image ---->')
     result = extract_color(image['file_path'])
     print(result)
-    update.message.reply_text(result)
+    update.message.reply_text(result[0])
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id=chat_id, photo=result[1])
 
 # def error(update, context):
 #     update.message.reply_text(f"Wrong input, please send an image")

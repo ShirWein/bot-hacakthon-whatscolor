@@ -69,13 +69,17 @@ def convert_rgb_to_names(rgb_tuple):
     kdt_db = KDTree(rgb_values)
     distance, index = kdt_db.query(rgb_tuple)
     return f'closest match: {names[index]}'
-def extract_color(in_path: str) -> str:
+def extract_color(in_path: str):
     data = requests.get(in_path)
     input_img = Image.open(BytesIO(data.content))
     output_img = remove(input_img)
-    output_img.save("C:/Users/Shir/Desktop/file_1_no_bg.png")
+    # output_img.save("C:/Users/Shir/Desktop/file_1_no_bg.png")
     color, pixelcount = extcolors.extract_from_image(output_img)
-    return convert_rgb_to_names(color[0][0])
+    print(output_img)
+    buffered = BytesIO()
+    output_img.save(buffered, format="PNG")
+    buffered.seek(0)
+    return (convert_rgb_to_names(color[0][0]), buffered)
     # return dominante_color(color)
     # output_img.save(out_path)
 
