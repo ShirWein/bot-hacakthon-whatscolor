@@ -78,7 +78,6 @@ def convert_rgb_to_names(rgb_tuple):
     return f'closest match: {names[index]}'
 
 def color_extract_chat(color):
-    print(color)
     prompt = f"""take this list of tuples, each tuple includes tuple of rgb and amount of pixels.
     first take the rgbs and change them to their basic color shade
     then take the pixels amount from each color and sum them
@@ -96,7 +95,6 @@ def extract_color(in_path: str):
     output_img = remove(input_img)
     # output_img.save("C:/Users/Shir/Desktop/file_1_no_bg.png")
     color, pixelcount = extcolors.extract_from_image(output_img)
-    print(output_img)
     buffered = BytesIO()
     output_img.save(buffered, format="PNG")
     buffered.seek(0)
