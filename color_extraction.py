@@ -5,6 +5,10 @@ from rembg import remove
 from PIL import Image
 import webcolors
 from scipy.spatial import KDTree
+from colors_dict import colors
+import openai
+from key import OPEN_AI_KEY
+
 
 def text_to_dict() -> dict:
     path = "./colors.txt"
@@ -68,7 +72,24 @@ def convert_rgb_to_names(rgb_tuple):
 
     kdt_db = KDTree(rgb_values)
     distance, index = kdt_db.query(rgb_tuple)
+    for k in colors.keys():
+        if k in names[index]:
+            return f'closest match: {k}'
     return f'closest match: {names[index]}'
+
+def color_extract_chat(color):
+    print(color)
+    prompt = f"""take this list of tuples, each tuple includes tuple of rgb and amount of pixels.
+    first take the rgbs and change them to their basic color shade
+    then take the pixels amount from each color and sum them
+    return only the name of the color family with the most pixels
+    without code
+    without explanation
+    only results
+    {color}"""
+    model = 'text-davinci-003'
+    openai.api_key = OPEN_AI_KEY
+    return openai.Completion.create(model=model, prompt=prompt, max_tokens=100)['choices'][0]['text'].replace("\n", "")
 def extract_color(in_path: str):
     data = requests.get(in_path)
     input_img = Image.open(BytesIO(data.content))
@@ -79,7 +100,7 @@ def extract_color(in_path: str):
     buffered = BytesIO()
     output_img.save(buffered, format="PNG")
     buffered.seek(0)
-    return (convert_rgb_to_names(color[0][0]), buffered)
+    return (color_extract_chat(color), buffered)
     # return dominante_color(color)
     # output_img.save(out_path)
 

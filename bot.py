@@ -4,7 +4,7 @@ from telegram import *
 from telegram.ext import *
 from key import api
 
-WELCOME_TEXT = "Welcome to WhatsColor bot!"
+WELCOME_TEXT = """Welcome to WhatsColor bot!\nTo use this bot please make sure:\n1. Take a photo with the flash on 🔦\n2. Try to isolate the object in the photo\n3. Multi-color object might be inaccurate"""
 
 logging.basicConfig(
     format="[%(levelname)s %(asctime)s %(module)s:%(lineno)d] %(message)s",
@@ -18,9 +18,7 @@ logger = logging.getLogger(__name__)
 def start(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     logger.info(f"> Start chat #{chat_id}")
-    buttons = [[KeyboardButton("Get Color")]]
-    context.bot.send_message(chat_id=chat_id, text=WELCOME_TEXT, reply_markup=ReplyKeyboardMarkup(buttons))
-
+    context.bot.send_message(chat_id=chat_id, text=WELCOME_TEXT)
 
 # the /help command
 def help_command(update, context):
